@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FiMenu, FiX, FiBook, FiPenTool, FiHelpCircle, FiEdit, FiLogIn } from 'react-icons/fi';
+import { FiMenu, FiX, FiBook, FiPenTool, FiHelpCircle, FiEdit, FiLogIn, FiHome } from 'react-icons/fi';
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [bgColor, setBgColor] = useState('');
+  const [bgColor, setBgColor] = useState('bg-gradient-to-r from-blue-400 via-teal-500 to-green-500');
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -16,55 +16,53 @@ const Navbar = () => {
     setIsSidebarOpen(false);
   };
 
-  const getNavbarColor = () => {
-    const currentHour = new Date().getHours();
-
-    if (currentHour >= 6 && currentHour < 12) {
-      return 'bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500'; // Morning
-    } else if (currentHour >= 12 && currentHour < 18) {
-      return 'bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'; // Afternoon
-    } else {
-      return 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500'; // Evening
-    }
-  };
-
   useEffect(() => {
-    setBgColor(getNavbarColor());
+    setBgColor('bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 bg-opacity-90'); // Semi-transparent background
   }, []);
 
   return (
-    <nav className={`${bgColor} p-4 shadow-md`}>
-      <div className="container mx-auto flex items-center justify-between">
-        {/* Project Name */}
-        <div className="text-white text-2xl font-extrabold">
-          <Link href="/" className="hover:text-yellow-300 transition duration-300">Learn English with Numan</Link>
-        </div>
+    <>
+      {/* Navbar */}
+      <nav className={`${bgColor} fixed top-0 left-0 w-full p-4 shadow-md z-50 text-white`}>
+        <div className="container mx-auto flex items-center justify-between">
+          {/* Project Name */}
+          <div className="text-white text-2xl font-extrabold">
+            <Link href="/" className="hover:text-yellow-300 transition duration-300">Learn English with Numan</Link>
+          </div>
 
-        {/* Hamburger Button for Mobile */}
-        <button
-          onClick={handleSidebarToggle}
-          className="text-white md:hidden focus:outline-none hover:text-yellow-300 transition duration-300"
-        >
-          {isSidebarOpen ? <FiX size={28} /> : <FiMenu size={28} />}
-        </button>
+          {/* Hamburger Button for Mobile */}
+          <button
+            onClick={handleSidebarToggle}
+            className="text-white md:hidden focus:outline-none hover:text-yellow-300 transition duration-300"
+          >
+            {isSidebarOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+          </button>
 
-        {/* Navbar Links for Desktop */}
-        <div className="hidden md:flex space-x-6 text-white font-medium">
-          <Link href="/courses" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
-            <FiBook /> <span>My Courses</span>
-          </Link>
-          <Link href="/blogs" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
-            <FiPenTool /> <span>Blogs</span>
-          </Link>
-          <Link href="/helpline" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
-            <FiHelpCircle /> <span>Helpline</span>
-          </Link>
-          <Link href="/test" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
-            <FiEdit /> <span>Test</span>
-          </Link>
-          <Link href="/login" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
-            <FiLogIn /> <span>Login</span>
-          </Link>
+          {/* Navbar Links for Desktop */}
+          <div className="hidden md:flex space-x-6 font-medium">
+            <Link href="/" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiHome /> <span>Home</span>
+            </Link>
+            <Link href="/ssc" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiBook /> <span>SSC</span>
+            </Link>
+            <Link href="/spoken" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiBook /> <span>Spoken</span>
+            </Link>
+            
+            <Link href="/blogs" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiPenTool /> <span>Blogs</span>
+            </Link>
+            <Link href="/helpline" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiHelpCircle /> <span>Helpline</span>
+            </Link>
+            <Link href="/test" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiEdit /> <span>Test</span>
+            </Link>
+            <Link href="/login" className="flex items-center space-x-1 hover:text-yellow-300 transition duration-300">
+              <FiLogIn /> <span>Login</span>
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Sidebar */}
@@ -111,8 +109,10 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      
+    </>
   );
 };
 
