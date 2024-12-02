@@ -1,43 +1,153 @@
-"use client";  // Tell Next.js this component should be rendered on the client
+"use client"; // Tell Next.js this component should be rendered on the client
 
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-// import tag from "@/";
 
 const SSCGrammarPage = () => {
   const topics = [
-    { title: "Tag Questions", videoUrl: 'https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fweb.facebook.com%2Fnuman12321%2Fvideos%2F1461798374500857%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true">' },
-    { title: "Voice", videoUrl: "https://www.youtube.com/embed/sample2", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
-    { title: "Narration", videoUrl: "", pdfUrl: "" }, // No video and PDF available
-    { title: "Parts of Speech", videoUrl: "https://www.youtube.com/embed/sample3", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
-    { title: "Prepositions", videoUrl: "https://www.youtube.com/embed/sample4", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
-    { title: "Articles", videoUrl: "", pdfUrl: "" }, // No video and PDF available
-    { title: "Sentence Structure", videoUrl: "https://www.youtube.com/embed/sample5", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
-    { title: "Modals", videoUrl: "https://www.youtube.com/embed/sample6", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
-    { title: "Conjunctions", videoUrl: "https://www.youtube.com/embed/sample7", pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" },
+    { 
+      title: "Parts of Speech", 
+      videoUrl: "/tag.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "Sentence", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "Tense", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "Preposition", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "Preposition-2", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "01. With Clue", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "02. Without Clue", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "03. Substitution Table", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "04. Right Forms of Verbs", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "05. Narration", 
+      videoUrl: "/tag.mp4",  
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "06. Changing Sentence-1", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "06.2 Changing Sentence-2", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "07. Completing Sentence", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "08. Suffix-Prefix", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "09. Tag Questions", 
+      videoUrl: "/tag.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "10. Sentence Connector", 
+      videoUrl: "/videos/voice.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "11. Capital letter and Punctuation", 
+      videoUrl: "", 
+      pdfUrl: "" 
+    },
+    { 
+      title: "12. CV", 
+      videoUrl: "/videos/parts_of_speech.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "13. Application", 
+      videoUrl: "/videos/prepositions.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "14. Paragraph", 
+      videoUrl: "", 
+      pdfUrl: "" 
+    },
+    { 
+      title: "15. Composition", 
+      videoUrl: "/videos/sentence_structure.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "16. Importance Verb List", 
+      videoUrl: "/videos/modals.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "17. Dialogue", 
+      videoUrl: "/videos/conjunctions.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "18. Graph-chart", 
+      videoUrl: "/videos/conjunctions.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
+    { 
+      title: "19. Use of Have", 
+      videoUrl: "/videos/conjunctions.mp4", 
+      pdfUrl: "https://drive.google.com/file/d/1dhltEIzRMQJdrdAiMRD3gWpIiRBy42E5/view?usp=sharing" 
+    },
   ];
 
   const [selectedTopic, setSelectedTopic] = useState(topics[0]);
   const [note, setNote] = useState("");
   const [reviews, setReviews] = useState([
-    {
-      text: "This lesson was incredibly helpful! The explanation of tenses was clear and easy to follow.",
-    },
-    {
-      text: "I learned a lot from this video, especially on parts of speech. Highly recommended!",
-    },
+    { text: "This lesson was incredibly helpful! The explanation of tenses was clear and easy to follow." },
+    { text: "I learned a lot from this video, especially on parts of speech. Highly recommended!" },
   ]);
   const [review, setReview] = useState("");
 
-  // Function to handle adding a new review
   const handleAddReview = (e) => {
     e.preventDefault();
-    const charCount = review.trim().length; // Get the character count (ignoring spaces)
+    const charCount = review.trim().length;
     if (review && charCount > 20) {
       setReviews([...reviews, { text: review }]);
-      setReview(""); // Clear review after submission
+      setReview("");
       Swal.fire({
-        title: "Review Submitted",
+        title: "Thank you",
         text: "Your review has been submitted successfully!",
         icon: "success",
         confirmButtonText: "OK",
@@ -52,9 +162,8 @@ const SSCGrammarPage = () => {
     }
   };
 
-  // Function to handle adding a note
   const handleAddNote = () => {
-    const charCount = note.trim().length; // Get the character count (ignoring spaces)
+    const charCount = note.trim().length;
     if (charCount > 20) {
       Swal.fire({
         title: "Note Added",
@@ -62,7 +171,7 @@ const SSCGrammarPage = () => {
         icon: "success",
         confirmButtonText: "OK",
       });
-      setNote(""); // Clear the note after submission
+      setNote("");
     } else {
       Swal.fire({
         title: "Invalid Note",
@@ -78,16 +187,26 @@ const SSCGrammarPage = () => {
       <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-8">
         {/* Video Section */}
         <div className="flex-1 bg-white rounded-lg shadow-xl overflow-hidden">
-          <div className="relative w-full h-[480px]"> {/* Increased video height */}
+          <div className="relative w-full h-[480px]">
             {selectedTopic.videoUrl ? (
-              <iframe
-                src={selectedTopic.videoUrl}
-                title={selectedTopic.title}
-                className="w-full h-full rounded-lg"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              selectedTopic.videoUrl.startsWith("http") ? (
+                <iframe
+                  src={selectedTopic.videoUrl}
+                  title={selectedTopic.title}
+                  className="w-full h-full rounded-lg"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={selectedTopic.videoUrl}
+                  controls
+                  className="w-full h-full rounded-lg"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              )
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 rounded-lg text-center p-6">
                 <p className="text-lg font-semibold text-gray-600">
@@ -100,7 +219,7 @@ const SSCGrammarPage = () => {
           {selectedTopic.pdfUrl && (
             <div className="flex justify-center mt-4">
               <a
-                href={selectedTopic.pdfUrl} // Dynamic PDF link based on the selected topic
+                href={selectedTopic.pdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-blue-600 text-white py-2 px-6 rounded-lg"
@@ -111,7 +230,7 @@ const SSCGrammarPage = () => {
           )}
         </div>
 
-        {/* Topics Section with Scroll */}
+        {/* Topics Section */}
         <div className="w-full md:w-1/3 bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
             SSC English Grammar Topics
