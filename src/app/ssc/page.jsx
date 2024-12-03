@@ -2,13 +2,17 @@
 
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import PartsOFSpeech from "./TextPages/PartsOFSpeech";
+
 
 const SSCGrammarPage = () => {
   const topics = [
     { 
       title: "Parts of Speech", 
       videoUrl: "/tag.mp4", 
-      pdfUrl: "https://drive.google.com/file/d/1mrU3UNVBkHapi805oH_kptOjzTPsn2UW/view?usp=drive_link" 
+      pdfUrl: "https://drive.google.com/file/d/1mrU3UNVBkHapi805oH_kptOjzTPsn2UW/view?usp=drive_link" ,
+      textPage: '/sscpartsofSpeech'
+      
     },
     { 
       title: "Sentence", 
@@ -133,6 +137,7 @@ const SSCGrammarPage = () => {
   ];
 
   const [selectedTopic, setSelectedTopic] = useState(topics[0]);
+
   const [note, setNote] = useState("");
   const [reviews, setReviews] = useState([
     { text: "This lesson was incredibly helpful! The explanation of tenses was clear and easy to follow." },
@@ -225,6 +230,18 @@ const SSCGrammarPage = () => {
                 className="bg-blue-600 text-white py-2 px-6 rounded-lg"
               >
                 See PDF
+              </a>
+            </div>
+          )}
+          {selectedTopic.textPage && (
+            <div className="flex justify-center mt-4">
+              <a
+                href={selectedTopic.textPage}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 text-white py-2 px-6 rounded-lg"
+              >
+                Text
               </a>
             </div>
           )}
