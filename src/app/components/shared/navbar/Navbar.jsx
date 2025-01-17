@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { FiMenu, FiX, FiBook, FiPenTool, FiHelpCircle, FiEdit, FiLogIn, FiHome } from 'react-icons/fi';
 import { usePathname } from 'next/navigation'; // Import usePathname
 
+
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [bgColor, setBgColor] = useState('bg-gradient-to-r from-blue-400 via-teal-500 to-green-500');
@@ -115,7 +116,7 @@ const Navbar = () => {
             </li>
             <li onClick={closeSidebar}>
               <Link href="/login" className={`flex items-center space-x-2 ${getLinkClass('/login')}`}>
-                <FiLogIn /> <span>Login</span>
+                <FiLogIn /> <span>Login </span>
               </Link>
             </li>
           </ul>
