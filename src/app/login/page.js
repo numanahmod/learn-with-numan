@@ -1,27 +1,78 @@
-
-"use client"// pages/login.js
+"use client";
 import { useState } from 'react';
 import Link from 'next/link';
-import { FaGoogle, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { auth, googleProvider } from '../firebase/Firebase.config'; // Adjust the import path
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import Swal from 'sweetalert2'; // Import SweetAlert2
+import { useRouter } from 'next/navigation'; // Use next/navigation for App Router
+import Image from 'next/image';
 
-export default function Login() {
+export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter(); // Initialize useRouter from next/navigation
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // SweetAlert2 popup on success
+      Swal.fire({
+        title: 'Success!',
+        text: 'You have successfully signed in.',
+        icon: 'success',
+        confirmButtonText: 'Go to Homepage',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push('/'); // Redirect to homepage after success
+        }
+      });
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      // SweetAlert2 popup after Google login
+      Swal.fire({
+        title: 'Welcome!',
+        text: `Welcome ${user.displayName}`,
+        icon: 'success',
+        confirmButtonText: 'Go to Homepage',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push('/'); // Redirect to homepage after success
+        }
+      });
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
-        <form className="space-y-4">
+    <div className="flex mt-16 items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-xl">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">Sign In to Your Account</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form className="space-y-6" onSubmit={handleSignIn}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 text-black py-3 mt-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition ease-in-out"
               placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -29,50 +80,48 @@ export default function Login() {
             <label className="block text-sm font-medium text-gray-700">Password</label>
             <input
               type={showPassword ? 'text' : 'password'}
-              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-3 mt-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition ease-in-out text-black"
               placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-3 pt-5 flex items-center text-gray-600"
+              className="absolute inset-y-0 pt-8 right-3 flex items-center text-gray-600"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <input type="checkbox" className="mr-2" />
-              <label className="text-sm text-gray-600">Remember me</label>
-            </div>
-            <Link href="/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-500">
-              Forgot password?
-            </Link>
-          </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+            className="w-full px-4 py-3 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition ease-in-out"
           >
-            Login
+            Sign In
           </button>
         </form>
-        <div className="flex items-center justify-between">
-          <div className="w-1/2 px-2">
-            <button className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 flex items-center justify-center">
-              <FaFacebook className="mr-2" /> Login with Facebook
-            </button>
-          </div>
-          <div className="w-1/2 px-2">
-            <button className="w-full py-2 text-white bg-red-500 rounded-md hover:bg-red-600 flex items-center justify-center">
-              <FaGoogle className="mr-2" /> Login with Google
+        
+        <div className="flex items-center justify-center mt-6 space-x-4">
+          <div className="w-full">
+            <button
+              className="w-full py-3 text-white rounded-lg flex items-center justify-center transition ease-in-out"
+              onClick={handleGoogleSignIn}
+            >
+              <Image 
+                src="/Google_logo_2013-2015-600x206.png" 
+                alt="Google Logo" 
+                width={100} 
+                height={100} 
+              />
             </button>
           </div>
         </div>
-        <p className="text-sm text-center text-gray-600">
+
+        <p className="text-sm text-center text-gray-600 mt-4">
           Do not have an account?{' '}
-          <Link href="/signup" className="text-indigo-600 hover:text-indigo-500">
-            Sign up
+          <Link href="/signup" className="text-indigo-600 hover:text-indigo-500 transition ease-in-out">
+            Sign Up
           </Link>
         </p>
       </div>
