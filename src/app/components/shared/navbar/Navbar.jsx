@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FiMenu, FiX, FiBook, FiPenTool, FiHelpCircle, FiEdit, FiLogIn, FiHome } from 'react-icons/fi';
+import { FiMenu, FiX, FiBook, FiPenTool, FiHelpCircle, FiEdit, FiLogIn, FiHome, FiLogOut } from 'react-icons/fi';
 import { usePathname } from 'next/navigation'; // Import usePathname
-
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../../firebase/Firebase.config'; // Import your Firebase auth configuration
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [bgColor, setBgColor] = useState('bg-gradient-to-r from-blue-400 via-teal-500 to-green-500');
   const [isClient, setIsClient] = useState(false); // State to track if component is mounted
+  const [user, setUser] = useState(null); // State to track the authenticated user
   const pathname = usePathname(); // Get the current route using usePathname
 
   const handleSidebarToggle = () => {
@@ -20,9 +22,25 @@ const Navbar = () => {
     setIsSidebarOpen(false);
   };
 
+  // Sign out the user
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Error signing out", error);
+    }
+  };
+
   useEffect(() => {
     setBgColor('bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 bg-opacity-90'); // Semi-transparent background
     setIsClient(true); // Set isClient to true after mount
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); // Set the user state when authentication state changes
+    });
+
+    return () => unsubscribe(); // Cleanup the listener when the component unmounts
   }, []);
 
   const getLinkClass = (path) => {
@@ -71,9 +89,19 @@ const Navbar = () => {
             <Link href="/test" className={`flex items-center space-x-1 ${getLinkClass('/test')}`}>
               <FiEdit /> <span>Test</span>
             </Link>
-            <Link href="/login" className={`flex items-center space-x-1 ${getLinkClass('/login')}`}>
-              <FiLogIn /> <span>Login</span>
-            </Link>
+            {/* Conditionally render SignIn/SignOut based on user state */}
+            {user ? (
+              <button
+                onClick={handleSignOut}
+                className="flex items-center space-x-1 text-white hover:text-yellow-300"
+              >
+                <FiLogOut /> <span>Log Out</span>
+              </button>
+            ) : (
+              <Link href="/login" className={`flex items-center space-x-1 ${getLinkClass('/login')}`}>
+                <FiLogIn /> <span>Sign In</span>
+              </Link>
+            )}
           </div>
         </div>
 
@@ -114,10 +142,20 @@ const Navbar = () => {
                 <FiEdit /> <span>Test</span>
               </Link>
             </li>
+            {/* Conditionally render SignIn/SignOut for mobile */}
             <li onClick={closeSidebar}>
-              <Link href="/login" className={`flex items-center space-x-2 ${getLinkClass('/login')}`}>
-                <FiLogIn /> <span>Login </span>
-              </Link>
+              {user ? (
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center space-x-2 text-white hover:text-yellow-300"
+                >
+                  <FiLogOut /> <span>Log Out</span>
+                </button>
+              ) : (
+                <Link href="/login" className={`flex items-center space-x-2 ${getLinkClass('/login')}`}>
+                  <FiLogIn /> <span>Sign In</span>
+                </Link>
+              )}
             </li>
           </ul>
         </div>

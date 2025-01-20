@@ -6,7 +6,6 @@ import { auth, googleProvider } from '../firebase/Firebase.config'; // Adjust th
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useRouter } from 'next/navigation'; // Use next/navigation for App Router
-
 import Image from 'next/image';
 
 export default function SignUp() {
@@ -23,7 +22,9 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
+      // Create user with email and password
       await createUserWithEmailAndPassword(auth, email, password);
+      
       // SweetAlert2 popup on success
       Swal.fire({
         title: 'Success!',
@@ -32,18 +33,22 @@ export default function SignUp() {
         confirmButtonText: 'Go to Homepage',
       }).then((result) => {
         if (result.isConfirmed) {
-          router.push('/'); // Redirect to homepage after success
+          // Redirect to homepage after success
+          router.push('/'); // Navigate to the homepage
         }
       });
     } catch (error) {
+      // Handle errors and display them
       setError(error.message);
     }
   };
 
   const handleGoogleSignUp = async () => {
     try {
+      // Sign up with Google provider
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+
       // SweetAlert2 popup after Google login
       Swal.fire({
         title: 'Welcome!',
@@ -52,7 +57,8 @@ export default function SignUp() {
         confirmButtonText: 'Go to Homepage',
       }).then((result) => {
         if (result.isConfirmed) {
-          router.push('/'); // Redirect to homepage after success
+          // Redirect to homepage after Google sign up
+          router.push('/'); // Navigate to the homepage
         }
       });
     } catch (error) {
@@ -122,7 +128,7 @@ export default function SignUp() {
         <p className="text-sm text-center text-gray-600 mt-4">
           Already have an account?{' '}
           <Link href="/login" className="text-indigo-600 hover:text-indigo-500 transition ease-in-out">
-            Login
+            SignIn
           </Link>
         </p>
       </div>

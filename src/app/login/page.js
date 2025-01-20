@@ -22,20 +22,33 @@ export default function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // SweetAlert2 popup on success
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // Redirect to the homepage immediately after successful sign-in
+      router.push('/'); // Navigate to the homepage
+      
+      // SweetAlert2 popup after redirect
       Swal.fire({
-        title: 'Success!',
-        text: 'You have successfully signed in.',
+        title: 'Sign In Successful',
+        text: 'You have successfully signed in!',
         icon: 'success',
         confirmButtonText: 'Go to Homepage',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push('/'); // Redirect to homepage after success
-        }
       });
     } catch (error) {
-      setError(error.message);
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+        // Show custom alert if the user is not found or if invalid credentials are provided
+        Swal.fire({
+          title: 'Sign Up First',
+          text: 'Please sign up before signing in or give correct email and pass.',
+          icon: 'warning',
+          confirmButtonText: 'Go to Sign Up',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push('/signup'); // Redirect to the sign-up page
+          }
+        });
+      } else {
+        setError(error.message);
+      }
     }
   };
 
@@ -43,16 +56,15 @@ export default function SignIn() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      // SweetAlert2 popup after Google login
+      // Redirect to the homepage immediately after successful Google login
+      router.push('/'); // Navigate to the homepage
+
+      // SweetAlert2 popup after redirect
       Swal.fire({
         title: 'Welcome!',
         text: `Welcome ${user.displayName}`,
         icon: 'success',
         confirmButtonText: 'Go to Homepage',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push('/'); // Redirect to homepage after success
-        }
       });
     } catch (error) {
       setError(error.message);
@@ -101,18 +113,18 @@ export default function SignIn() {
             Sign In
           </button>
         </form>
-        
+
         <div className="flex items-center justify-center mt-6 space-x-4">
           <div className="w-full">
             <button
               className="w-full py-3 text-white rounded-lg flex items-center justify-center transition ease-in-out"
               onClick={handleGoogleSignIn}
             >
-              <Image 
-                src="/Google_logo_2013-2015-600x206.png" 
-                alt="Google Logo" 
-                width={100} 
-                height={100} 
+              <Image
+                src="/Google_logo_2013-2015-600x206.png"
+                alt="Google Logo"
+                width={100}
+                height={100}
               />
             </button>
           </div>
@@ -120,7 +132,10 @@ export default function SignIn() {
 
         <p className="text-sm text-center text-gray-600 mt-4">
           Do not have an account?{' '}
-          <Link href="/signup" className="text-indigo-600 hover:text-indigo-500 transition ease-in-out">
+          <Link
+            href="/signup"
+            className="text-indigo-600 hover:text-indigo-500 transition ease-in-out"
+          >
             Sign Up
           </Link>
         </p>
