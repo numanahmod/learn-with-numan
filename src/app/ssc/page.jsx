@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import PartsOFSpeech from "./TextPages/PartsOFSpeech";
+import Comment from "../components/comment/Comment";
 
 const SSCGrammarPage = () => {
   const topics = [
@@ -137,54 +138,8 @@ const SSCGrammarPage = () => {
 
   const [selectedTopic, setSelectedTopic] = useState(topics[0]);
 
-  const [note, setNote] = useState("");
-  const [reviews, setReviews] = useState([
-    { text: "This lesson was incredibly helpful! The explanation of tenses was clear and easy to follow." },
-    { text: "I learned a lot from this video, especially on parts of speech. Highly recommended!" },
-  ]);
-  const [review, setReview] = useState("");
 
-  const handleAddReview = (e) => {
-    e.preventDefault();
-    const charCount = review.trim().length;
-    if (review && charCount > 20) {
-      setReviews([...reviews, { text: review }]);
-      setReview("");
-      Swal.fire({
-        title: "Thank you",
-        text: "Your review has been submitted successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-    } else {
-      Swal.fire({
-        title: "Invalid Review",
-        text: "Please enter at least 20 characters in the review.",
-        icon: "error",
-        confirmButtonText: "Try Again",
-      });
-    }
-  };
-
-  const handleAddNote = () => {
-    const charCount = note.trim().length;
-    if (charCount > 20) {
-      Swal.fire({
-        title: "Note Added",
-        text: "Your note has been added successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      setNote("");
-    } else {
-      Swal.fire({
-        title: "Invalid Note",
-        text: "Please enter more than 20 characters in the note.",
-        icon: "error",
-        confirmButtonText: "Try Again",
-      });
-    }
-  };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 p-8 pt-28">
@@ -271,53 +226,8 @@ const SSCGrammarPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Note Section */}
-      <div className="mt-10 bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">Note:</h3>
-        <textarea
-          className="w-full p-4 border border-gray-300 rounded-lg text-black"
-          rows="4"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="Add your note here..."
-        />
-        <button
-          className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg"
-          onClick={handleAddNote}
-        >
-          Add Note
-        </button>
-      </div>
-
-      {/* Review Section */}
-      <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">Reviews:</h3>
-        <div className="space-y-4">
-          {reviews.map((review, index) => (
-            <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-sm">
-              <p className="text-lg text-gray-700">{review.text}</p>
-            </div>
-          ))}
-        </div>
-
-        <h4 className="text-xl font-semibold text-gray-800 mt-8 mb-4">Add a Review:</h4>
-        <form onSubmit={handleAddReview} className="space-y-4">
-          <textarea
-            className="w-full p-4 border border-gray-300 rounded-lg text-black"
-            rows="4"
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            placeholder="Your review..."
-          />
-          <button
-            type="submit"
-            className="bg-blue-600 text-white py-2 px-4 rounded-lg"
-          >
-            Submit Review
-          </button>
-        </form>
-      </div>
+      {/* Comment  */}
+      <Comment/>
     </div>
   );
 };

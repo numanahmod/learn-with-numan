@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Hero = () => (
   <section className="bg-gradient-to-r from-blue-500 via-teal-500 to-green-500 text-white py-20 text-center">
-    <h1 className="text-4xl md:text-6xl font-bold">Master English with Expert Guidance</h1>
+    <h1 className="text-3xl md:text-5xl font-bold">Master English with Expert Guidance</h1>
     <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto">
       Comprehensive courses, practical tests, and expert advice for every learner.
     </p>
