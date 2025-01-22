@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FaGoogle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { auth, googleProvider } from '../firebase/Firebase.config'; // Adjust the import path
@@ -13,7 +13,16 @@ export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [redirectUrl, setRedirectUrl] = useState('/'); // Default to homepage
   const router = useRouter(); // Initialize useRouter from next/navigation
+
+  useEffect(() => {
+    // Check if there is a referrer and store the URL
+    const referrer = document.referrer;
+    if (referrer && !referrer.includes('signin')) {
+      setRedirectUrl(referrer); // Set the previous page as the redirect URL
+    }
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -23,8 +32,8 @@ export default function SignIn() {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // Redirect to the homepage immediately after successful sign-in
-      router.push('/'); // Navigate to the homepage
+      // Redirect to the referring page or homepage
+      router.push(redirectUrl);
       
       // SweetAlert2 popup after redirect
       Swal.fire({
@@ -56,15 +65,15 @@ export default function SignIn() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      // Redirect to the homepage immediately after successful Google login
-      router.push('/'); // Navigate to the homepage
+      // Redirect to the referring page or homepage
+      router.push(redirectUrl);
 
       // SweetAlert2 popup after redirect
       Swal.fire({
         title: 'Welcome!',
         text: `Welcome ${user.displayName}`,
         icon: 'success',
-        confirmButtonText: 'Go to Homepage',
+        
       });
     } catch (error) {
       setError(error.message);
