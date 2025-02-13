@@ -244,6 +244,6 @@ const Comment = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default Comment;
